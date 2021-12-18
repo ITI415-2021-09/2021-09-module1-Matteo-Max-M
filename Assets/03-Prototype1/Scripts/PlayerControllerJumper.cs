@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
+using Microsoft.VisualStudio.Services.FormInput;
 
 public class PlayerController : MonoBehaviour
 {
 
     public float speed = 0;
-
+    public TextMeshProUGUI countText;
+    public GameObject WinTextObject;
 
     private Rigidbody rb;
     private int count;
     private float movementX;
     private float movementY;
-    
+
     // Start is called before the first frame update
 
     void Start()
@@ -21,24 +23,28 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         count = 0;
 
+        SetCountText();
+        WinTextObject.SetActive(false);
     }
 
     void OnMove(InputValue movementValue)
     {
+
+
         Vector2 movementVector = movementValue.Get<Vector2>();
 
         movementX = movementVector.x;
         movementY = movementVector.y;
     }
 
-  //  void SetCountText()
- //   {
-    //    countText.text = "Count: " + count.ToString();
-    //    if(count >= 13)
-   //     {
-   //         WinTextObject.SetActive(true);
- //       }
-  //  }
+    void SetCountText()
+    {
+        countText.text = "Count: " + count.ToString();
+        if (count >= 13)
+        {
+            WinTextObject.SetActive(true);
+        }
+    }
 
     void FixedUpdate()
     {
@@ -49,14 +55,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-      //  if(other.gameObject.CompareTag("Pickup"))
-      //  {
-        //    other.gameObject.SetActive(false);
-         //   count = count + 1;
-        //
-            //SetCountText();
-       // }
-        
+        if (other.gameObject.CompareTag("Pickup"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;
+
+            SetCountText();
+        }
+
 
     }
 
